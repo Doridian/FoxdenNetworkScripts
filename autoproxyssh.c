@@ -18,11 +18,11 @@ uint32_t gen_mask(const uint_fast8_t msb) {
 
 int usage() {
 	printf("autoproxyssh [HOST] [PORT] [SUBNET] [SUBNET BITS] [BOUNCER HOST]\n");
-    printf("\nLaunching this program on its own outside of ProxyCommand is not useful\n");
-    printf("\nOperation of this tool requires a split-view DNS where your LAN hosts resolve publically using non-LAN IPs (or don't resolve at all). You must not add them to your hosts file!\n");
-    printf("Use in your ~/.ssh/config as follows assuming 192.168.2.0/24 is your LAN and jumphost.external.com is a server inside your LAN that you can reach from the internet:\n");
-    printf("\tHost myhost.lan\n");
-    printf("\t\tProxyCommand /usr/local/bin/autoproxyssh %%h %%p 192.168.2.0 24 jumphost.external.com\n");
+	printf("\nLaunching this program on its own outside of ProxyCommand is not useful\n");
+	printf("\nOperation of this tool requires a split-view DNS where your LAN hosts resolve publically using non-LAN IPs (or don't resolve at all). You must not add them to your hosts file!\n");
+	printf("Use in your ~/.ssh/config as follows assuming 192.168.2.0/24 is your LAN and jumphost.external.com is a server inside your LAN that you can reach from the internet:\n");
+	printf("\tHost myhost.lan\n");
+	printf("\t\tProxyCommand /usr/local/bin/autoproxyssh %%h %%p 192.168.2.0 24 jumphost.external.com\n");
 	return 1;
 }
 
@@ -41,11 +41,11 @@ int main(int argc, char** argv) {
 	}
 	uint32_t subnet_mask = gen_mask(atoi(argv[4]) - 1);
 
-    uint32_t host_ip = 0;
-    struct hostent* host_ent = gethostbyname(host);
-    if (host_ent) {
-        host_ip = *(uint32_t*)host_ent->h_addr_list[0];
-    }
+	uint32_t host_ip = 0;
+	struct hostent* host_ent = gethostbyname(host);
+	if (host_ent) {
+		host_ip = *(uint32_t*)host_ent->h_addr_list[0];
+	}
 
 	if((host_ip & subnet_mask) == subnet_ip) {
 		execl(NETCAT_LOCAL, NETCAT_LOCAL, host, port, NULL);
